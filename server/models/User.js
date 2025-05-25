@@ -6,5 +6,5 @@ const UserSchema = new mongoose.Schema({
     password: {type: String, required: true}
 });
 
-const User = mongoose.model('User', UserSchema);
+const User = mongoose.model('User', UserSchema); // 'User' → 'users' - MongoDB does it automatically.
 export default User;

@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 import User from "../models/User.js";
+import middleware from "../middleware/middleware.js";
 
 const router = express.Router();
 
@@ -84,5 +85,9 @@ router.post("/login", async (req, res) => {
       .json({ success: false, message: "Error In Adding User" });
   }
 });
+
+router.get('/verify', middleware, (req, res) => {
+  return res.status(200).json({success: true, user: req.user})
+})
 
 export default router;
