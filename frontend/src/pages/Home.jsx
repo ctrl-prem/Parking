@@ -16,7 +16,7 @@ function Home() {
 
   const fetchNotes = async () => {
     try {
-      const { data } = await axios.get("http://localhost:3000/api/note", {
+      const { data } = await axios.get("https://noteapp-rzoi.onrender.com/api/note", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -51,7 +51,7 @@ function Home() {
   const addNote = async (title, description) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/note/add",
+        "https://noteapp-rzoi.onrender.com/api/note/add",
         { title, description },
         {
           headers: {
@@ -72,7 +72,7 @@ function Home() {
   const deleteNote = async (id) => {
     try {
       const response = await axios.delete(
-        `http://localhost:3000/api/note/${id}`,
+        `https://noteapp-rzoi.onrender.com/api/note/${id}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -92,7 +92,7 @@ function Home() {
   const editNote = async (id, title, description) => {
     try {
       const response = await axios.put(
-        `http://localhost:3000/api/note/${id}`,
+        `https://noteapp-rzoi.onrender.com/api/note/${id}`,
         { title, description },
         {
           headers: {

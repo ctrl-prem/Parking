@@ -10,7 +10,7 @@ function ContextProvider({ children }) {
   useEffect(() => {
     const verifyUser = async () => {
       try{
-        const res = await axios.get('http://localhost:3000/api/auth/verify');
+        const res = await axios.get('https://noteapp-rzoi.onrender.com/api/auth/verify');
         if(res.data.success){
           setUser(res.data.user)
         } else setUser(null)
