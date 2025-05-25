@@ -3,31 +3,137 @@ import Navbar from "../components/Navbar";
 import NoteModal from "../components/NoteModal";
 import { useAuth } from "../context/ContextProvider";
 import axios from "axios";
+import { useEffect } from "react";
+import NoteCard from "../components/NoteCard";
+import {toast} from 'react-toastify';
 
 function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [filteredNotes, setFilteredNotes] = useState([]);
+  const [notes, setNotes] = useState([]);
+  const [currentNote, setCurrentNote] = useState(null);
+  const [query, setQuery] = useState("");
+
+  const fetchNotes = async () => {
+    try {
+      const { data } = await axios.get("http://localhost:3000/api/note", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      setNotes(data.notes);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchNotes();
+  }, []);
+
+  useEffect(() => {
+    setFilteredNotes(
+      notes.filter((note) =>
+        note.title.toLowerCase().includes(query.toLowerCase())
+      ) ||
+        notes.filter((note) =>
+          note.description.toLowerCase().includes(query.toLowerCase())
+        )
+    );
+  }, [query, notes]);
+
   const handleClick = () => setIsModalOpen((prev) => !prev);
   const { user } = useAuth();
   const closeModal = () => {
-    setIsModalOpen(prev => !prev);
-  }
+    setIsModalOpen((prev) => !prev);
+  };
 
   const addNote = async (title, description) => {
     try {
-        const response = await axios.post(
-          "http://localhost:3000/api/note/add",
-          { title, description }
-        );
-        console.log(response);
-        if(response.data.success){
-          closeModal();
+      const response = await axios.post(
+        "http://localhost:3000/api/note/add",
+        { title, description },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
-      } catch (err) {console.log(err)};
-  }
+      );
+      console.log(response);
+      if (response.data.success) {
+        closeModal();
+        fetchNotes();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const deleteNote = async (id) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:3000/api/note/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      console.log(response);
+      if (response.data.success) {
+        toast.success("Note Deleted");
+        fetchNotes();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const editNote = async (id, title, description) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:3000/api/note/${id}`,
+        { title, description },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      console.log(response);
+      if (response.data.success) {
+        closeModal();
+        fetchNotes();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const onEdit = (note) => {
+    setCurrentNote(note);
+    setIsModalOpen(true);
+  };
 
   return (
     <div className="bg-gray-100 min-h-screen">
-      <Navbar />
+      <Navbar setQuery={setQuery} />
+
+      <div className="px-8 pt-4 grid grid-cols-1 md:grid-cols-3 gap-6">
+        {filteredNotes.length > 0 ? (
+          filteredNotes.map((note, idx) => (
+            <NoteCard
+              key={idx}
+              note={note}
+              onEdit={onEdit}
+              deleteNote={deleteNote}
+            />
+          ))
+        ) : (
+          <p>No Notes</p>
+        )}
+      </div>
+
       {user && (
         <button
           onClick={handleClick}
@@ -37,7 +143,14 @@ function Home() {
         </button>
       )}
 
-      {isModalOpen && <NoteModal closeModal = {closeModal} addNote = {addNote} />}
+      {isModalOpen && (
+        <NoteModal
+          closeModal={closeModal}
+          addNote={addNote}
+          currentNote={currentNote}
+          editNote={editNote}
+        />
+      )}
     </div>
   );
 }
