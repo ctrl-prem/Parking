@@ -12,7 +12,7 @@ function SignUp() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://noteapp-rzoi.onrender.com/api/auth/register",
+        "http://localhost:3000/api/auth/register",
         { name, email, password }
       );
       console.log(response);
