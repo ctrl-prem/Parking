@@ -13,7 +13,7 @@ function Login() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://noteapp-rzoi.onrender.com/api/auth/login",
+        `${import.meta.env.BACKEND_URL}/api/auth/login`,
         { email, password }
       );
       console.log(response.data.message);

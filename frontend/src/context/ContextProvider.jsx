@@ -9,8 +9,7 @@ function ContextProvider({ children }) {
 
   const verifyUser = async () => {
     try {
-      //http://localhost:3000     &     https://noteapp-rzoi.onrender.com
-      const res = await axios.get("https://noteapp-rzoi.onrender.com/api/auth/verify", {
+      const res = await axios.get(`${import.meta.env.BACKEND_URL}/api/auth/verify`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

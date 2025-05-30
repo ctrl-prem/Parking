@@ -11,16 +11,8 @@ app.use(express.json()); // converting coming json data to normal, parses and ma
 app.use('/api/auth', authRouter);
 app.use('/api/note', noteRouter);
 
-const PORT = 3000; 
-app.listen(PORT, () => {
+
+app.listen(import.meta.env.PORT, () => {
   connectToMongoDB();
-  console.log(`Server is running at PORT : ${PORT}`);
+  console.log(`Server is running at PORT : ${import.meta.env.PORT}`);
 });
-
-// K3mV8vcPQ6HJ6Q1M - Password of DB
-
-// prem9810683167 - UserName of DB
-
-// mongodb+srv://prem9810683167:K3mV8vcPQ6HJ6Q1M@cluster0.hqbi7go.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
-//  mongodb+srv://prem9810683167:<db_password>@cluster0.hqbi7go.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
-// mongodb+srv://prem9810683167:<db_password>@cluster0.hqbi7go.mongodb.net/
