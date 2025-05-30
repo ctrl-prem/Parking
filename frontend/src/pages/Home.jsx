@@ -5,7 +5,10 @@ import { useAuth } from "../context/ContextProvider";
 import axios from "axios";
 import { useEffect } from "react";
 import NoteCard from "../components/NoteCard";
-import {toast} from 'react-toastify';
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+
+import notesImg from "../assets/notes.svg";
 
 function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -13,18 +16,16 @@ function Home() {
   const [notes, setNotes] = useState([]);
   const [currentNote, setCurrentNote] = useState(null);
   const [query, setQuery] = useState("");
-  const {login} = useAuth()
+  const navigate = useNavigate();
 
   const fetchNotes = async () => {
     try {
-      const { data } = await axios.get("http://localhost:3000/api/note", {
+      const { data } = await axios.get("https://noteapp-rzoi.onrender.com/api/note", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
       setNotes(data.notes);
-      console.log(data);
-      login(data.user);
     } catch (error) {
       console.log(error);
     }
@@ -36,12 +37,11 @@ function Home() {
 
   useEffect(() => {
     setFilteredNotes(
-      notes.filter((note) =>
-        note.title.toLowerCase().includes(query.toLowerCase())
-      ) ||
-        notes.filter((note) =>
+      notes.filter(
+        (note) =>
+          note.title.toLowerCase().includes(query.toLowerCase()) ||
           note.description.toLowerCase().includes(query.toLowerCase())
-        )
+      )
     );
   }, [query, notes]);
 
@@ -54,7 +54,7 @@ function Home() {
   const addNote = async (title, description) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/note/add",
+        "https://noteapp-rzoi.onrender.com/api/note/add",
         { title, description },
         {
           headers: {
@@ -75,7 +75,7 @@ function Home() {
   const deleteNote = async (id) => {
     try {
       const response = await axios.delete(
-        `http://localhost:3000/api/note/${id}`,
+        `https://noteapp-rzoi.onrender.com/api/note/${id}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -95,7 +95,7 @@ function Home() {
   const editNote = async (id, title, description) => {
     try {
       const response = await axios.put(
-        `http://localhost:3000/api/note/${id}`,
+        `https://noteapp-rzoi.onrender.com/api/note/${id}`,
         { title, description },
         {
           headers: {
@@ -119,11 +119,10 @@ function Home() {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen">
+    <div className="bg-gradient-to-br from-sky-100 via-indigo-50 to-purple-100 min-h-screen">
       <Navbar setQuery={setQuery} />
-
-      <div className="px-8 pt-4 grid grid-cols-1 md:grid-cols-3 gap-6">
-        {filteredNotes.length > 0 ? (
+      <div className="px-8 pb-20 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {user && filteredNotes.length > 0 ? (
           filteredNotes.map((note, idx) => (
             <NoteCard
               key={idx}
@@ -133,19 +132,42 @@ function Home() {
             />
           ))
         ) : (
-          <p>No Notes</p>
+          // Cool Empty State
+          <div className="col-span-full flex flex-col items-center mt-20 text-center">
+            <img
+              src={notesImg}
+              alt="No Notes"
+              className="w-60 mb-6 opacity-90"
+            />
+            <h2 className="text-2xl font-bold text-gray-700 mb-2">
+              No Notes Yet
+            </h2>
+            <p className="text-gray-500 mb-4">
+              You haven't created any notes yet. Let’s get started!
+            </p>
+            <button
+              onClick={() => {
+                if (user) {
+                  handleClick(); // open modal
+                } else {
+                  navigate("/login"); // redirect to login
+                }
+              }}
+              className="bg-indigo-500 hover:bg-indigo-600 text-white px-6 py-2 rounded-full font-medium shadow-md transition-transform hover:scale-105 cursor-pointer"
+            >
+              + Create Your First Note
+            </button>
+          </div>
         )}
       </div>
-
-      {user && (
+      {user && filteredNotes.length > 0 && (
         <button
           onClick={handleClick}
-          className="fixed right-4 bottom-4 text-2xl bg-teal-500 text-white font-bold p-4 rounded-full"
+          className="fixed right-4 bottom-4 text-xl bg-gradient-to-r from-teal-500 to-teal-600 text-white font-bold py-3 px-6 rounded-full shadow-xl transition-transform duration-300 hover:scale-110 hover:shadow-2xl hover:from-teal-600 hover:to-teal-700 cursor-pointer"
         >
-          +
+          + Add Note
         </button>
       )}
-
       {isModalOpen && (
         <NoteModal
           closeModal={closeModal}

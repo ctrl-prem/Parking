@@ -11,7 +11,7 @@ app.use(express.json()); // converting coming json data to normal, parses and ma
 app.use('/api/auth', authRouter);
 app.use('/api/note', noteRouter);
 
-const PORT = 3000;
+const PORT = 3000; 
 app.listen(PORT, () => {
   connectToMongoDB();
   console.log(`Server is running at PORT : ${PORT}`);

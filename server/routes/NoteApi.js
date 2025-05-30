@@ -34,10 +34,9 @@ router.post("/add", middleware, async (req, res) => {
 router.get("/", middleware, async (req, res) => {
   try {
     const notes = await Note.find({ userId: req.user.id });
-    console.log(notes);
     return res
       .status(200)
-      .json({ success: true, notes, user: { name: user.name }, message: "Success" });
+      .json({ success: true, notes, message: "Success" });
   } catch (error) {
     return res
       .status(500)

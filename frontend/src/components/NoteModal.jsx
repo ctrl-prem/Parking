@@ -20,38 +20,55 @@ function NoteModal({ closeModal, addNote, currentNote, editNote }) {
   };
   return (
     <div
-      className="fixed inset-0 backdrop-blur-xs flex justify-center items-center"
+      className="fixed inset-0 bg-black flex justify-center items-center z-50"
       onClick={closeModal}
     >
       <div
-        className="bg-white p-8 rounded"
+        className="bg-white rounded-xl shadow-xl p-8 w-full max-w-md mx-4 relative"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="text-xl font-bold mb-4">
+        <h2 className="text-2xl font-bold mb-6 text-gray-800">
           {currentNote ? "Edit Note" : "Add New Note"}
         </h2>
-        <form onSubmit={handleSubmit}>
+
+        <form onSubmit={handleSubmit} className="space-y-5">
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Note Title"
-            className="border p-2 w-full mb-4"
+            className="border border-gray-300 rounded-md p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            required
           />
+
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Note's Description"
-            className="border p-2 w-full mb-4"
+            className="border border-gray-300 rounded-md p-3 w-full h-28 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            required
           />
+
           <button
             type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-md shadow-md transition duration-300 cursor-pointer"
           >
             {currentNote ? "Update" : "Add Note"}
           </button>
         </form>
-        <button className="mt-4 text-red-500" onClick={closeModal}>
+
+        <button
+          className="absolute top-4 right-4 text-gray-400 hover:text-red-500 transition duration-300 font-semibold cursor-pointer"
+          onClick={closeModal}
+          aria-label="Close modal"
+        >
+          ✕
+        </button>
+
+        <button
+          className="mt-4 text-center w-full text-red-600 hover:text-red-700 font-semibold transition duration-300 cursor-pointer"
+          onClick={closeModal}
+        >
           Cancel
         </button>
       </div>
