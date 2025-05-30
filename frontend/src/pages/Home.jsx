@@ -20,7 +20,7 @@ function Home() {
 
   const fetchNotes = async () => {
     try {
-      const { data } = await axios.get(`https://noteapp-61kg.onrender.com/api/note`, {
+      const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/note`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -54,7 +54,7 @@ function Home() {
   const addNote = async (title, description) => {
     try {
       const response = await axios.post(
-        `https://noteapp-61kg.onrender.com/api/note/add`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/note/add`,
         { title, description },
         {
           headers: {
@@ -75,7 +75,7 @@ function Home() {
   const deleteNote = async (id) => {
     try {
       const response = await axios.delete(
-        `https://noteapp-61kg.onrender.com/api/note/${id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/note/${id}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -95,7 +95,7 @@ function Home() {
   const editNote = async (id, title, description) => {
     try {
       const response = await axios.put(
-        `https://noteapp-61kg.onrender.com/api/note/${id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/note/${id}`,
         { title, description },
         {
           headers: {

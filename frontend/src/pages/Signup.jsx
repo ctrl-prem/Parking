@@ -11,9 +11,8 @@ function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(import.meta.env.BACKEND_URL);
       const response = await axios.post(
-        `https://noteapp-61kg.onrender.com/api/auth/register`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/auth/register`,
         { name, email, password }
       );
       console.log(response);
