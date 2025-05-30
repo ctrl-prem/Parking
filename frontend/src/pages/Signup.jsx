@@ -12,7 +12,7 @@ function SignUp() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `${import.meta.env.BACKEND_URL}/api/auth/register`,
+        `https://noteapp-61kg.onrender.com/api/auth/register`,
         { name, email, password }
       );
       console.log(response);

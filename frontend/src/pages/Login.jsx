@@ -13,7 +13,7 @@ function Login() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `${import.meta.env.BACKEND_URL}/api/auth/login`,
+        `https://noteapp-61kg.onrender.com/api/auth/login`,
         { email, password }
       );
       console.log(response.data.message);

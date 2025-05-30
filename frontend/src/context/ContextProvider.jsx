@@ -9,7 +9,7 @@ function ContextProvider({ children }) {
 
   const verifyUser = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.BACKEND_URL}/api/auth/verify`, {
+      const res = await axios.get(`https://noteapp-61kg.onrender.com/api/auth/verify`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
