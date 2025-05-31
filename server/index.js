@@ -9,10 +9,17 @@ import connectToMongoDB from "./db/Db.js";
 dotenv.config();
 const app = express();
 
+const whiteList = ['https://note-app-xi-lilac.vercel.app/'];
 
-
-app.use(cors());
-
+app.use(cors({
+  origin: function(origin, callback){
+    if(!origin || whiteList.includes(origin)){
+      callback(null, true);
+    } else{
+      callback(new Error("This is a CORS failier"));
+    }
+  }
+}));
 
 
 app.use(express.json()); // converting coming json data to normal, parses and make data available in req.body
