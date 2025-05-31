@@ -36,11 +36,14 @@ function Login() {
 
         <form onSubmit={handleSubmit}>
           <div className="mb-5">
-            <label className="block text-gray-700 font-semibold mb-1">
+            <label htmlFor="email" className="block text-gray-700 font-semibold mb-1">
               Email
             </label>
             <input
+              id="email"
+              name="email"
               type="email"
+              autoComplete="email" // Helps browser autofill saved emails
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-2 border border-purple-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-200"
               placeholder="you@example.com"
@@ -49,11 +52,14 @@ function Login() {
           </div>
 
           <div className="mb-6">
-            <label className="block text-gray-700 font-semibold mb-1">
+            <label htmlFor="password" className="block text-gray-700 font-semibold mb-1">
               Password
             </label>
             <input
+              id="password"
+              name="password"
               type="password"
+              autoComplete="current-password" // Autofill saved password
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-2 border border-purple-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-200"
               placeholder="Enter your password"

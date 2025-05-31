@@ -31,12 +31,14 @@ function SignUp() {
           Create Account
         </h2>
 
-        <form onSubmit={handleSubmit}>
+        <form id="formSignup" onSubmit={handleSubmit}>
           <div className="mb-5">
-            <label className="block text-gray-700 font-semibold mb-1">
+            <label htmlFor="name" className="block text-gray-700 font-semibold mb-1">
               Name
             </label>
             <input
+              id="name"
+              name="name"
               type="text"
               onChange={(e) => setName(e.target.value)}
               className="w-full px-4 py-2 border border-purple-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200"
@@ -46,10 +48,12 @@ function SignUp() {
           </div>
 
           <div className="mb-5">
-            <label className="block text-gray-700 font-semibold mb-1">
+            <label htmlFor="email" className="block text-gray-700 font-semibold mb-1">
               Email
             </label>
             <input
+              id="email"
+              name="email"
               type="email"
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-2 border border-purple-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200"
@@ -59,10 +63,12 @@ function SignUp() {
           </div>
 
           <div className="mb-6">
-            <label className="block text-gray-700 font-semibold mb-1">
+            <label htmlFor="password" className="block text-gray-700 font-semibold mb-1">
               Password
             </label>
             <input
+              id="password"
+              name="password"
               type="password"
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-2 border border-purple-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200"

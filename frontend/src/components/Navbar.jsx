@@ -20,6 +20,8 @@ const Navbar = ({ setQuery }) => {
         {user && (
           <div className="hidden md:block w-1/3">
             <input
+              id="search"
+              name="search"
               type="text"
               placeholder="Search Notes..."
               className="w-full bg-gray-700 text-white placeholder-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-400"
