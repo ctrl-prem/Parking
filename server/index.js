@@ -18,7 +18,8 @@ app.use(cors({
     } else{
       callback(new Error("This is a CORS failier"));
     }
-  }
+  },
+  credentials: true
 }));
 
 
