@@ -10,7 +10,6 @@ dotenv.config();
 const app = express();
 
 const whiteList = ['https://note-app-xi-lilac.vercel.app'];
-
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || whiteList.includes(origin)) {
@@ -18,7 +17,9 @@ const corsOptions = {
     } else {
       callback(new Error("Not allowed by CORS"));
     }
-  }
+  },
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization']
 };
 
 app.use(cors(corsOptions));
