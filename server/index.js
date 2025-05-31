@@ -9,7 +9,7 @@ import connectToMongoDB from "./db/Db.js";
 dotenv.config();
 const app = express();
 
-const whiteList = ['https://note-app-xi-lilac.vercel.app/'];
+const whiteList = ['https://note-app-xi-lilac.vercel.app'];
 
 app.use(cors({
   origin: function(origin, callback){
