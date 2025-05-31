@@ -18,7 +18,7 @@ function Home() {
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
 
-  const token = localStorage("token");
+  const token = localStorage.getItem("token");
   const fetchNotes = async () => {
     try {
       const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/note`, {
@@ -34,6 +34,7 @@ function Home() {
 
   useEffect(() => {
     fetchNotes();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
