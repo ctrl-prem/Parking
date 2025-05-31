@@ -18,8 +18,8 @@ const corsOptions = {
       callback(new Error("Not allowed by CORS"));
     }
   },
-  credentials: true,
-  allowedHeaders: ['Content-Type', 'Authorization']
+  credentials: true, // This is compulsory as we are sending credentials/token here from frontend
+  allowedHeaders: ['Content-Type', 'Authorization'] // this is also compulsory as we are sending manual header file(to send token using Authorization: `Bearer ${localStorage.getItem("token")}`)
 };
 
 app.use(cors(corsOptions));
