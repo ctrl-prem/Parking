@@ -11,16 +11,19 @@ const app = express();
 
 const whiteList = ['https://note-app-xi-lilac.vercel.app'];
 
-app.use(cors({
-  origin: function(origin, callback){
-    if(!origin || whiteList.includes(origin)){
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || whiteList.includes(origin)) {
       callback(null, true);
-    } else{
-      callback(new Error("This is a CORS failier"));
+    } else {
+      callback(new Error("Not allowed by CORS"));
     }
   },
-  credentials: true
-}));
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+
+app.use(cors(corsOptions));
 
 
 app.use(express.json()); // converting coming json data to normal, parses and make data available in req.body
