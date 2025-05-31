@@ -18,11 +18,12 @@ function Home() {
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
 
+  const token = localStorage("token");
   const fetchNotes = async () => {
     try {
       const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/note`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: token ? `Bearer ${localStorage.getItem("token")}` : undefined,
         },
       });
       setNotes(data.notes);
@@ -58,7 +59,7 @@ function Home() {
         { title, description },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: token ? `Bearer ${localStorage.getItem("token")}` : undefined,
           },
         }
       );
@@ -78,7 +79,7 @@ function Home() {
         `${import.meta.env.VITE_BACKEND_URL}/api/note/${id}`,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: token ? `Bearer ${localStorage.getItem("token")}` : undefined,
           },
         }
       );
@@ -99,7 +100,7 @@ function Home() {
         { title, description },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: token ? `Bearer ${localStorage.getItem("token")}` : undefined,
           },
         }
       );

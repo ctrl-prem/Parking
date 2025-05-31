@@ -9,9 +9,10 @@ function ContextProvider({ children }) {
 
   const verifyUser = async () => {
     try {
+      const token = localStorage.getItem("token");
       const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/auth/verify`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: token ? `Bearer ${localStorage.getItem("token")}` : undefined,
         },
       });
       if (res.data.success) {
