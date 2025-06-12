@@ -1,7 +1,8 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/ContextProvider";
+import api from "../services/api";
+import { toast } from "react-toastify";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -12,18 +13,19 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/auth/login`,
-        { email, password }
-      );
-      console.log(response.data.message);
-      if (response.data.success) {
-        login(response.data.user);
-        localStorage.setItem("token", response.data.token);
+      const res = await api.post("/api/auth/login", { email, password });
+      const { success, message, user, token } = res.data;
+
+      if (success) {
+        login(user, token);
+        toast.success(message || "Login successful!");
         navigate("/");
+      } else {
+        toast.error(message || "Login failed!");
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
+      toast.error(err.response?.data?.message || "Something went wrong!");
     }
   };
 
@@ -36,14 +38,17 @@ function Login() {
 
         <form onSubmit={handleSubmit}>
           <div className="mb-5">
-            <label htmlFor="email" className="block text-gray-700 font-semibold mb-1">
+            <label
+              htmlFor="email"
+              className="block text-gray-700 font-semibold mb-1"
+            >
               Email
             </label>
             <input
               id="email"
-              name="email"
               type="email"
-              autoComplete="email" // Helps browser autofill saved emails
+              autoComplete="email"
+              value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-2 border border-purple-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-200"
               placeholder="you@example.com"
@@ -52,14 +57,17 @@ function Login() {
           </div>
 
           <div className="mb-6">
-            <label htmlFor="password" className="block text-gray-700 font-semibold mb-1">
+            <label
+              htmlFor="password"
+              className="block text-gray-700 font-semibold mb-1"
+            >
               Password
             </label>
             <input
               id="password"
-              name="password"
               type="password"
-              autoComplete="current-password" // Autofill saved password
+              autoComplete="current-password"
+              value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-2 border border-purple-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-200"
               placeholder="Enter your password"

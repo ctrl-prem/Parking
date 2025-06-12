@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                Int       @id @default(autoincrement())
+  username          String
+  email             String    @unique
+  password          String
+  money             Float     @default(0)
+  lastMoneyUpdate   DateTime? // Tracks last time money was added/deducted
+  createdAt         DateTime  @default(now())
+  vehicles          Vehicle[]
+  selectedVehicles  Vehicle[]
+}
+
+model Vehicle {
+  id             Int      @id @default(autoincrement())
+  vehicleNumber  String
+  fuelType       String
+  wheelerType    String
+  createdAt      DateTime @default(now())
+  userId         Int
+  user           User     @relation(fields: [userId], references: [id])
+}
+
+model Admin {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+}
+
+
+model Parking {
+  id          Int  @id @default(autoincrement())
+  totalSlots  Int
+  vacantSlots Int
+}
